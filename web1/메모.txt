@@ -35,3 +35,29 @@ spring boot
 2) ORM 라이브러리 
    - Mybatis
    - hibernate
+
+
+스프링 중요 개념
+1. DI(dependency Injection) : 의존성 주입
+   - setter, 생성자를 이용한 객체 생성
+
+==> 스프링 컨테이너가 필요한 객체를 필요한 시점에 주입해줌(IoC)
+==> Inversion of Control(제어의 역전)
+
+모든 요청은 컨트롤러에 경로가 있어야 함
+
+직접적으로 파일 링크 불가
+<a href="index.html">index</a> (X)
+
+컨트롤러 경로 지정
+<a href="/">index</a> (O)
+
+
+어노테이션
+@Controller : 컨트롤러 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성한 후 관리 해 줌
+@RequestMapping(value="",method=) : 경로를 지정(예전버전)
+@GetMapping("경로") : @RequestMapping 의 GET 간략화
+@PostMapping("경로") : @RequestMapping 의 POST 간략화
+@RequestParam() : request 에서 넘어오는 파라메터의 이름을 지정할 때 사용
+@ModelAttribute : Dto 객체 이름 지정
+                  == model.addAttribute("page", page)
