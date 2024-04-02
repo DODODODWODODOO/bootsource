@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http/www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,5 +7,13 @@
   </head>
   <body>
     <h1>ex1</h1>
+    <p th:text="${result}"></p>
+    <script>
+      // const result = 'SUCCESS';
+      const result = "[[${result}]]";
+    </script>
+    <script th:inline="javascript">
+      const result1 = [[${result}]];
+    </script>
   </body>
 </html>
