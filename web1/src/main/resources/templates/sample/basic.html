@@ -11,13 +11,13 @@
     <h4>bno : <span th:text="${bno}"></span></h4>
     <div th:text="${name}"></div>
     <div th:text="${dto}"></div>
-    <div th:utext="${'<h3>'+dto.first+'</h3>'}"></div>
+    <div th:text="${'<h3>'+dto.first+'</h3>'}"></div>
     <!-- 태그자체가 해석이됨 -->
     <!-- <div>
       <h3 th:text="${dto.first}"></h3>
     </div> -->
 
-    <div th:text="${'<h3>'+dto.first+'</h3>'}"></div>
+    <div th:utext="${'<h3>'+dto.first+'</h3>'}"></div>
     <ul>
       <li>ID : <span th:text="${dto.id}"></span></li>
       <li>FIRST : <span th:text="${dto.first}"></span></li>
