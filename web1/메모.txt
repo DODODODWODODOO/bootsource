@@ -61,3 +61,14 @@ spring boot
 @RequestParam() : request 에서 넘어오는 파라메터의 이름을 지정할 때 사용
 @ModelAttribute : Dto 객체 이름 지정
                   == model.addAttribute("page", page)
+
+
+데이터베이스 연동
+1) JDBC 사용
+
+--------------------
+스프링 프레임워크
+1) JDBC 사용         (X)
+2) 스프링 DAO        (X)
+3) 마이바티즈
+4) 하이버네이트 ORM 
