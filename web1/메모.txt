@@ -54,7 +54,14 @@ spring boot
 
 
 어노테이션
+@Conponent : 스프링 컨테이너가 관리가 필요한 모든 객체에 사용
 @Controller : 컨트롤러 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성한 후 관리 해 줌
+@Service : 서비스 클래스 위에 설정 / 스프링 컨테이너가 해당 클래스의 객체를 생성한 후 관리 해 줌
+
+@Autowired : 객체 주입 (생성된 객체 넣어줘)
+private  MemoRepository memoRepository = new MemoRepository() (X)
+MemoRepository 객체 생성해서 스프링 컨테이너가 가지고 있음
+
 @RequestMapping(value="",method=) : 경로를 지정(예전버전)
 @GetMapping("경로") : @RequestMapping 의 GET 간략화
 @PostMapping("경로") : @RequestMapping 의 POST 간략화
