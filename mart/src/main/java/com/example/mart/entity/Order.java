@@ -16,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -27,14 +28,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Builder
-@ToString(exclude = "orderItems")
+@ToString(exclude = { "orderItems", "delivery" })
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "orders") // table 명 order 사용불가
 @Entity
-public class Order {
+public class Order extends BaseEntity {
 
     @SequenceGenerator(name = "mart_order_seq_gen", sequenceName = "order_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mart_order_seq_gen")
@@ -52,7 +53,11 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER) // 조회를 편하게 하기 위해
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY) // 조회를 편하게 하기 위해
     @Builder.Default // ArrayList 를 빌더 할수 있게 해줌
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    // 배송 1 : 1
+    @OneToOne
+    private Delivery delivery;
 }

@@ -18,11 +18,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-@ToString
+@ToString(excludes = "locker")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class SportsMember {
+public class SportsMember extends BaseEntity {
 
     @Id
     @Column(name = "member_id")

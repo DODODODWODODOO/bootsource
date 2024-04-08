@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.example.mart.entity.Delivery;
+import com.example.mart.entity.DeliveryStatus;
 import com.example.mart.entity.Item;
 import com.example.mart.entity.Member;
 import com.example.mart.entity.Order;
@@ -29,6 +31,9 @@ public class MartRepositoryTest {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private DeilveryRepository deilveryRepository;
 
     @Test
     public void insertTest() {
@@ -89,13 +94,16 @@ public class MartRepositoryTest {
         // @OneToMany 를 이용해 조회
         // 관련있는 엔티티를 처음부터 안 가지고 옴
         // Order : OrderItem
-        Order order = orderRepository.findById(1L).get();
+        Order order = orderRepository.findById(2L).get();
         System.out.println(order); // 에러발생 =>
 
         // Order 를 기준으로 OrderItem 조회
         // 1) @Transactional
         // 2) FetchType 변경 : @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
         System.out.println(order.getOrderItems());
+        // 배송지 조회
+        System.out.println(order.getDelivery().getCity());
+
     }
 
     @Transactional
@@ -139,6 +147,38 @@ public class MartRepositoryTest {
         orderItemRepository.delete(OrderItem.builder().id(1L).build());
         orderRepository.deleteById(1L);
 
+    }
+
+    @Test
+    public void orderInsertDeliveryTest() {
+        // 누가 주문했나?
+        Member member = Member.builder().id(1L).build();
+
+        // 어떤 아이템?
+        Item item = Item.builder().id(2L).build();
+
+        // 배송지 입력
+        Delivery delivery = Delivery.builder().city("서울시").street("123-12").zipcode("11160")
+                .deliveryStatus(DeliveryStatus.READY).build();
+        deilveryRepository.save(delivery);
+
+        // 주문 + 주문상품
+        Order order = Order.builder().member(member).orderDate(LocalDateTime.now()).orderStatus(OrderStatus.ORDER)
+                .delivery(delivery)
+                .build();
+        orderRepository.save(order);
+
+        OrderItem orderItem = OrderItem.builder().item(item).order(order).orderPrice(26000).count(2).build();
+        orderItemRepository.save(orderItem);
+    }
+
+    @Test
+    public void deliveryOrderGet() {
+        // 배송지를 통해서 관련있는 Order 가져오기
+        Delivery delivery = deilveryRepository.findById(1L).get();
+
+        System.out.println(delivery);
+        System.out.println("관련 주문 " + delivery.getOrder());
     }
 
 }
