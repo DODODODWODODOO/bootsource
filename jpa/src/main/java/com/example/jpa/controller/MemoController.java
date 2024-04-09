@@ -43,7 +43,7 @@ public class MemoController {
 
     // /memo/read?mno=3 + GET
     // /memo/modify?mno=3 + GET : 수정을 위해 화면 보여주기
-    @GetMapping({ "/read", "/modify" }) // {"",""} 여려개의 경로 지정 가능
+    @GetMapping({ "/read", "/modify" }) // {"",""} 여러개의 경로 지정 가능
     public void readMemo(@RequestParam Long mno, Model model) {
         log.info("read form 요청");
 
