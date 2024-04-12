@@ -15,14 +15,18 @@ import lombok.RequiredArgsConstructor;
 // @Service
 // public class MemoServiceImpl {
 //     @Autowired
-//     private  MemoRepository memoRepository;
+//     private MemoRepository memoRepository;    
 // }
 
+@RequiredArgsConstructor // @NonNull, final 이 붙은 멤버변수를 대상으로 생성자 생성
 @Service
-@RequiredArgsConstructor // @NotNull, final 이 붙은 맴버변수를 대상으로 생성자 생성
 public class MemoServiceImpl {
 
     private final MemoRepository memoRepository;
+
+    // public MemoServiceImpl(MemoRepository memoRepository) {
+    // this.memoRepository = memoRepository;
+    // }
 
     public List<MemoDto> getMemoList() {
         List<Memo> entites = memoRepository.findAll();
@@ -58,7 +62,6 @@ public class MemoServiceImpl {
         memoRepository.save(dtoToEntity(mDto));
     }
 
-    // entity ==> dto
     private MemoDto entityToDto(Memo entity) {
         MemoDto mDto = MemoDto.builder()
                 .mno(entity.getMno())
@@ -68,7 +71,6 @@ public class MemoServiceImpl {
         return mDto;
     }
 
-    // dto ==> entity
     private Memo dtoToEntity(MemoDto mDto) {
         Memo entity = Memo.builder()
                 .mno(mDto.getMno())

@@ -72,4 +72,18 @@ public class MemoRepositoryTest {
         memoRepository.delete(memo);
         System.out.println("삭제 memo " + memoRepository.findById(24L)); // Optional.empty
     }
+
+    @Test
+    public void testJpql() {
+
+        List<Memo> list = memoRepository.findByMnoLessThan(5L);
+        list.forEach(System.out::println);
+
+        list = memoRepository.findByMnoLessThanOrderByMnoDesc(10L);
+        list.forEach(System.out::println);
+
+        list = memoRepository.findByMnoBetween(50L, 70L);
+        list.forEach(System.out::println);
+
+    }
 }
