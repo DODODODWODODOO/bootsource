@@ -10,11 +10,14 @@ import lombok.Data;
 
 @Data
 @Builder
-
 @AllArgsConstructor
 public class PageRequestDto {
     private int page;
     private int size;
+
+    // 검색
+    private String type;
+    private String keyword;
 
     public PageRequestDto() {
         this.page = 1;

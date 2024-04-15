@@ -3,6 +3,7 @@ package com.example.book.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
@@ -13,12 +14,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.book.entity.Book;
 import com.example.book.entity.Category;
 import com.example.book.entity.Publisher;
-
-import jakarta.transaction.Transactional;
 
 @SpringBootTest
 public class BookRepositoryTest {
@@ -31,9 +31,6 @@ public class BookRepositoryTest {
 
     @Autowired
     private PublisherRepository publisherRepository;
-
-    // 테스트 시 properties #DDL 을 create 로 해놓으면 그전에 테스트는 사라져서
-    // none 으로 해놓을것 (부모키가 존재 하지 않습니다)
 
     @Test
     public void testCategoryCreate() {
@@ -88,7 +85,6 @@ public class BookRepositoryTest {
 
             bookRepository.save(book);
         });
-
     }
 
     @Transactional
@@ -109,11 +105,10 @@ public class BookRepositoryTest {
 
         list.forEach(category -> System.out.println(category));
         // Category(id=1, name=컴퓨터)
-
         // List<String> cateList = new ArrayList<>();
-        // list.forEach(category -> cateList.add(category.getName())); // 컴퓨터
+        // list.forEach(category -> cateList.add(category.getName()));
 
-        List<String> cateList = list.stream().map(entity -> entity.getName()).collect(Collectors.toList()); // 컴퓨터
+        List<String> cateList = list.stream().map(entity -> entity.getName()).collect(Collectors.toList());
 
         cateList.forEach(System.out::println);
     }
@@ -125,16 +120,16 @@ public class BookRepositoryTest {
         // page 번호 : 0 부터 시작
         // Pageable pageable = PageRequest.of(0, 10);
         // Pageable pageable = PageRequest.of(0, 10, Direction.DESC);
-        // Pageable pageable = PageRequest.of(0, 10, Direction.DESC,"id");
+        // Pageable pageable = PageRequest.of(0, 10, Direction.DESC, "id");
         Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
 
-        // Page : 페이지 나누기에 필요한 메소드를 제공함
-        // == PageDto 와 같은 역할
-        Page<Book> result = bookRepository.findAll(bookRepository.makePredicate(), pageable);
+        // Page : 페이지 나누기에 필요한 메소드 제공
+        // == PageDto와 같은 역할
+        Page<Book> result = bookRepository.findAll(bookRepository.makePredicate("t", "스프링"), pageable);
 
         System.out.println("전체 행 수 " + result.getTotalElements());
         System.out.println("필요한 페이지 수 " + result.getTotalPages());
         result.getContent().forEach(book -> System.out.println(book));
-
     }
+
 }
