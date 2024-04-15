@@ -41,7 +41,7 @@
           <th scope="row" th:text="${dto.gno}"></th>
           <td th:text="${dto.title}"></td>
           <td th:text="${dto.writer}"></td>
-          <td th:value="${#temporals.format(dto.createdDate, 'yyyy-MM-dd')}"></td>
+          <td th:text="${#temporals.format(dto.createdDate, 'yyyy-MM-dd')}"></td>
         </tr>
       </tbody>
     </table>
