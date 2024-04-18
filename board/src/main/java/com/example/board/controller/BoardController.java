@@ -78,6 +78,8 @@ public class BoardController {
             return "/board/create";
         }
 
+        service.create(dto);
+
         rttr.addAttribute("page", requestDto.getPage());
         rttr.addAttribute("type", requestDto.getType());
         rttr.addAttribute("keyword", requestDto.getKeyword());

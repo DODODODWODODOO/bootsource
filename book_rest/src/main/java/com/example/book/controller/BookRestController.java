@@ -33,7 +33,6 @@ public class BookRestController {
     private final BookService service;
 
     // /pages/1 => 1 페이지에 해당하는 10개 데이터 가져오기
-
     @GetMapping("/pages/{page}")
     public ResponseEntity<PageResultDto<BookDto, Book>> bookList(@PathVariable("page") int page) {
         log.info("list 요청");
