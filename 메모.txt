@@ -80,3 +80,7 @@ MemoRepository 객체 생성해서 스프링 컨테이너가 가지고 있음
 2) 스프링 DAO        (X)
 3) 마이바티즈
 4) 하이버네이트 ORM 
+
+
+JavaScript Object Notation (JSON) 은 JavaScript 객체 문법
+자바 스크립트 객체 : {"key":value, key:value}
