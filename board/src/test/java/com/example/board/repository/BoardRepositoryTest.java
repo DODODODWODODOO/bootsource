@@ -1,7 +1,5 @@
 package com.example.board.repository;
 
-import static org.mockito.ArgumentMatchers.isNull;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;

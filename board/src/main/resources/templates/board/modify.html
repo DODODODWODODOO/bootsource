@@ -34,9 +34,9 @@
     </form>
     <form th:action="@{remove}" method="post" id="actionForm">
       <input type="hidden" name="bno" th:value="${dto.bno}" />
-      <input type="hidden" name="page" value="${requestDto.page}" />
-      <input type="hidden" name="type" value="${requestDto.type}" />
-      <input type="hidden" name="keyword" value="${requestDto.keyword}" />
+      <input type="hidden" name="page" th:value="${requestDto.page}" />
+      <input type="hidden" name="type" th:value="${requestDto.type}" />
+      <input type="hidden" name="keyword" th:value="${requestDto.keyword}" />
     </form>
   </div>
   <th:block layout:fragment="script">

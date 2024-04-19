@@ -84,3 +84,30 @@ MemoRepository 객체 생성해서 스프링 컨테이너가 가지고 있음
 
 JavaScript Object Notation (JSON) 은 JavaScript 객체 문법
 자바 스크립트 객체 : {"key":value, key:value}
+
+
+
+
+
+
+
+
+웹 개발
+
+SSR(Server Side Rendering) : JSP, thymeleaf
+- DB 작업, 페이지 작업후 브라우저 전송
+
+데이터만 주고 받기 ==> Ajax
+
+SPA (Single Page Application)
+
+CSR (Client Side Rendering) : react, vue
+
+1. Ajax
+ - jQuery : $ajax()
+   DOM : $(".btn) <==> document.querySelector(".btn)
+   자바스크립트의 성능(복잡성, 브라우저마다 다른코드...) 부분을 보완 ==> 자바스크립트 성능 좋아짐
+
+ - fetch() : get방식
+             post == form : post 보내는 방식과 동일
+ - axios() : node.js 
