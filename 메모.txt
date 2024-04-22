@@ -111,3 +111,59 @@ CSR (Client Side Rendering) : react, vue
  - fetch() : get방식
              post == form : post 보내는 방식과 동일
  - axios() : node.js 
+
+
+
+
+
+
+
+ spring security
+ ==> web
+      1. 주민등록번호 수집 금지
+      2. 비밀번호 암호화
+      3. 회원, 관리자 등급 권한 부여
+      4. 네트워크 공격(sql인젝션, 세션변조, csrf 공격....) 대비
+
+인증(Authentication) ==> 로그인
+- 자신을 증명하는 것
+- 대상자 스스로 자신을 증명할 자료를 제시함
+
+권한(Authorization) = 인가
+- 타인에 의해서 자격이 부여됨
+
+spring security 프로젝트 적용
+1. 모든 요청은 로그인 페이지를 거치도록 설정 됨
+   => default LoginPage 가 동작 
+   => test user 생성
+      username(id) : user
+      password : 컨트롤러 로딩 시 변경
+
+2. 로그인 작업
+   => 로그인 성공 시 원래 시작했던 페이지로 되돌려 보내 줌
+   => http://localhost:8080/login : 로그인 페이지 default 경로
+   => id 역할을 하는 요소의 이름은 반드시 username (변경 가능)
+   => 비밀번호 역할을 하는 요소의 이름은 반드시 password (변경 가능)
+   => get 을 제외한 모든 method 는 csrf 값을 포함해야 한다(csrf disable 하지 않는다면)
+
+   => http://localhost:8080/security/admin 요청
+   => 권한 부여 받았는지 확인함
+   => http://localhost:8080/login 페이지 보여주기
+   => 로그인 입력 후 인가된 사용자라면(인가된 정보를 SecurityContext 저장)
+   => 시작했던 페이지로 이동 (http://localhost:8080/security/admin)
+
+3. 로그아웃 작업
+   => default LogOutPage 가 동작
+   => http://localhost:8080.logout => 자동 응답(session 제거, 쿠키 제거) 처리
+
+4. 접근제한
+   => 회원(member, admin, guest...)에 대한 요청별 접근 제한
+
+
+
+
+
+club
+
+- ROLE : USER, MANAGER, admin
+         여러개 부여될 수 있음
