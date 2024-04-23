@@ -161,9 +161,13 @@ spring security 프로젝트 적용
 
 
 
-
-
 club
-
 - ROLE : USER, MANAGER, admin
          여러개 부여될 수 있음
+
+login post 직접하지 않음
+
+
+board
+- role : member, admin
+/, /board/list,  /board/read => 전체 접근 가능

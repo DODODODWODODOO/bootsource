@@ -2,8 +2,6 @@ package com.example.board.dto;
 
 import java.time.LocalDateTime;
 
-import com.example.board.entity.Board;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
