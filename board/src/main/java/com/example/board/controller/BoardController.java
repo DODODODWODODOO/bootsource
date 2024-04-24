@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class BoardController {
 
     private final BoardService service;
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/list")
     public void getList(@ModelAttribute("requestDto") PageRequestDto requestDto, Model model) {
         log.info("list 요청");
@@ -38,6 +40,7 @@ public class BoardController {
         model.addAttribute("dto", service.getRow(bno));
     }
 
+    @PreAuthorize("authentication.name == #dto.writerEmail")
     @PostMapping("/modify")
     public String postModify(BoardDto dto, RedirectAttributes rttr,
             @ModelAttribute("requestDto") PageRequestDto requestDto) {
@@ -51,8 +54,9 @@ public class BoardController {
         return "redirect:/board/read";
     }
 
+    @PreAuthorize("authentication.name == #writerEmail")
     @PostMapping("/remove")
-    public String postMethodName(Long bno, @ModelAttribute("requestDto") PageRequestDto requestDto,
+    public String postMethodName(Long bno, String writerEmail, @ModelAttribute("requestDto") PageRequestDto requestDto,
             RedirectAttributes rttr) {
 
         service.removeWithReplies(bno);
@@ -64,21 +68,23 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public void getCreate(BoardDto dto, @ModelAttribute("requestDto") PageRequestDto requestDto) {
         log.info("글 작성 폼 요청");
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String postCreate(@Valid BoardDto dto, BindingResult result,
             @ModelAttribute("requestDto") PageRequestDto requestDto, RedirectAttributes rttr) {
         log.info("등록 요청 {}", dto);
 
+        service.create(dto);
+
         if (result.hasErrors()) {
             return "/board/create";
         }
-
-        service.create(dto);
 
         rttr.addAttribute("page", requestDto.getPage());
         rttr.addAttribute("type", requestDto.getType());

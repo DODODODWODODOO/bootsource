@@ -32,7 +32,7 @@ public class QReply extends EntityPathBase<Reply> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
-    public final StringPath replyer = createString("replyer");
+    public final QMember replyer;
 
     public final NumberPath<Long> rno = createNumber("rno", Long.class);
 
@@ -57,6 +57,7 @@ public class QReply extends EntityPathBase<Reply> {
     public QReply(Class<? extends Reply> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.board = inits.isInitialized("board") ? new QBoard(forProperty("board"), inits.get("board")) : null;
+        this.replyer = inits.isInitialized("replyer") ? new QMember(forProperty("replyer")) : null;
     }
 
 }

@@ -13,9 +13,9 @@ import com.example.board.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-@Service
-@RequiredArgsConstructor
 @Log4j2
+@RequiredArgsConstructor
+@Service
 public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyRepository replyRepository;
@@ -25,7 +25,7 @@ public class ReplyServiceImpl implements ReplyService {
         Board board = Board.builder().bno(bno).build();
         List<Reply> replies = replyRepository.getRepliesByBoardOrderByRno(board);
 
-        // entity 리스트 => dto 리스트
+        // entity 리스트 ==> dto 리스트
         return replies.stream().map(reply -> entityToDto(reply)).collect(Collectors.toList());
     }
 
@@ -42,7 +42,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public ReplyDto getReply(Long rno) {
 
-        // Reply reply = replyRepository.findById(rno).get();
+        // Reply reply =replyRepository.findById(rno).get();
         // ReplyDto dto = entityToDto(reply);
 
         return entityToDto(replyRepository.findById(rno).get());

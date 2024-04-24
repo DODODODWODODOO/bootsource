@@ -29,6 +29,8 @@ public class QMember extends EntityPathBase<Member> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
+    public final EnumPath<com.example.board.constant.MemberRole> memberRole = createEnum("memberRole", com.example.board.constant.MemberRole.class);
+
     public final StringPath name = createString("name");
 
     public final StringPath password = createString("password");

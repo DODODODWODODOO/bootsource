@@ -42,7 +42,11 @@
         />
       </div>
       <div class="mb-3">
-        <a class="btn btn-success" th:href="@{modify(bno=${dto.bno},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
+        <!-- 수정 버튼은 로그인사용자(${#authentication.name}) == 글 작성자(dto.writerEmail) -->
+        <a
+          class="btn btn-success"
+          th:if="${#authentication.name} == ${dto.writerEmail}"
+          th:href="@{modify(bno=${dto.bno},page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}"
           >Modify</a
         >
         <a class="btn btn-info" th:href="@{list(page=${requestDto.page},type=${requestDto.type},keyword=${requestDto.keyword})}">List</a>
@@ -50,18 +54,27 @@
     </form>
     <!-- 댓글 폼 영역 -->
     <div class="mt-5">
-      <div class="border p-4">
-        <form action="" method="post" id="replyForm">
+      <hr />
+      <div class="border p-4" sec:authorize="hasRole('ROLE_MEMBER')">
+        <form th:action="@{/replies/new}" method="post" id="replyForm">
           <input type="hidden" name="rno" id="rno" />
           <div class="input-group mb-3">
             <span class="input-group-text">작성자</span>
-            <input type="text" name="replyer" id="replyer" class="form-control" readonly />
+            <input
+              type="text"
+              name="writerName"
+              id="writerName"
+              class="form-control"
+              th:value="${#authentication.principal.memberDto.name}"
+              readonly
+            />
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text">댓글</span>
             <textarea name="text" id="text" rows="3" class="form-control"></textarea>
             <button class="btn btn-outline-secondary" type="submit">등록</button>
           </div>
+          <input type="hidden" name="writerEmail" th:value="${#authentication.name}" id="writerEmail" />
         </form>
       </div>
       <!-- 댓글 리스트 영역 -->
@@ -69,10 +82,10 @@
         <h5 class="my-3">
           <i class="fa-regular fa-comment-dots"></i>
           <!-- 댓글 총 수 -->
-          <span class="d-inline-block mx-2" id="count">[[${dto.replyCount}]]</span>개의 댓글
+          <span class="d-inline-block mx-2">[[${dto.replyCount}]]</span>개의 댓글
         </h5>
         <div class="replyList border px-2">
-          <!-- <div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="${reply.rno}">
+          <!-- <div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="">
             <div class="p-3">
               <img src="/img/default.png" alt="" class="rounded-circle mx-auto d-block" style="width: 60px; height: 60px" />
             </div>
@@ -102,6 +115,10 @@
     <script>
       // bno 가져오기
       const bno = "[[${dto.bno}]]";
+      // const csrfValue = document.querySelector("#replyForm").querySelector("[name='_csrf']").value;
+      const csrfValue = `[[${_csrf.token}]]`;
+      // 현재 로그인 user email
+      const email = "[[${#authentication.name}]]";
     </script>
     <script th:src="@{/js/read.js}"></script>
   </th:block>

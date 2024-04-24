@@ -2,7 +2,8 @@ package com.example.board.dto;
 
 import com.example.board.constant.MemberRole;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,13 +18,15 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberDto {
-    @NotBlank(message = "이메일을 입력해 주세요")
+
+    @Email(message = "이메일 형식이 아닙니다.")
+    @NotEmpty(message = "이메일은 필수요소입니다.")
     private String email;
 
-    @NotBlank(message = "이름을 입력해 주세요")
+    @NotEmpty(message = "이름은 필수요소입니다.")
     private String name;
 
-    @NotBlank(message = "비밀번호를 입력해 주세요")
+    @NotEmpty(message = "비밀번호는 필수요소입니다.")
     private String password;
 
     private MemberRole memberRole;
