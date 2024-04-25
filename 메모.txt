@@ -171,3 +171,7 @@ login post 직접하지 않음
 board
 - role : member, admin
 /, /board/list,  /board/read => 전체 접근 가능
+
+
+
+다대다관계에선 중간 테이블을 만든다
