@@ -15,6 +15,10 @@ public interface MovieService {
 
     PageResultDto<MovieDto, Object[]> getList(PageRequestDto pageRequestDto);
 
+    MovieDto getRow(Long mno);
+
+    void movieRemove(Long mno);
+
     // entity => dto
     public default MovieDto entityToDto(Movie movie, List<MovieImage> movieImages, Long reviewCnt, Double avg) {
 
@@ -26,7 +30,7 @@ public interface MovieService {
                 .title(movie.getTitle())
                 .createdDate(movie.getCreatedDate())
                 .lastModifiedDate(movie.getLastModifiedDate())
-                .avg(avg)
+                .avg(avg != null ? avg : 0.0d)
                 .reviewCnt(reviewCnt)
                 .build();
 
