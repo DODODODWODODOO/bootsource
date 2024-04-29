@@ -1,0 +1,46 @@
+package com.example.movie.dto;
+
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+// Serializable : 객체 상태로 입출력
+
+@Data
+@AllArgsConstructor
+public class UploadResultDto implements Serializable {
+    // 폴더, UUID, 실 파일명
+
+    private String folderPath;
+
+    private String uuid;
+
+    private String fileName;
+
+    // 저장된 파일의 위치
+    public String getImageURL() {
+        String fullPath = "";
+
+        try {
+            fullPath = URLEncoder.encode(folderPath + "/" + uuid + "_" + fileName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return fullPath;
+    }
+
+    // 썸네일 파일의 위치
+    public String getThumbImageURL() {
+        String thumbfullPath = "";
+
+        try {
+            thumbfullPath = URLEncoder.encode(folderPath + "/s_" + uuid + "_" + fileName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return thumbfullPath;
+    }
+}

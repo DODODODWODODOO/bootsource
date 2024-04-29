@@ -17,6 +17,14 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+		<!-- 이미지 파일 섬네일 사이즈로 변경 -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.20</version>
+		</dependency>
+
 		<!-- thymeleaf 에서 스프링 시큐리티 태그 사용 -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
