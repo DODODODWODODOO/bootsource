@@ -23,6 +23,8 @@ public interface MovieService {
 
     Long movieInsert(MovieDto movieDto);
 
+    Long movieUpdate(MovieDto movieDto);
+
     // entity => dto
     public default MovieDto entityToDto(Movie movie, List<MovieImage> movieImages, Long reviewCnt, Double avg) {
 
