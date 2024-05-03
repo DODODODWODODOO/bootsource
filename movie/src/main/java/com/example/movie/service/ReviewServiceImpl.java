@@ -13,56 +13,54 @@ import com.example.movie.entity.Review;
 import com.example.movie.repository.ReviewRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
-@Service
+@Log4j2
 @RequiredArgsConstructor
+@Service
 public class ReviewServiceImpl implements ReviewService {
 
-    private final ReviewRepository reviewRepository;
+    private final ReviewRepository repository;
 
     @Override
     public List<ReviewDto> getListOfMovie(Long mno) {
         Movie movie = Movie.builder().mno(mno).build();
-        List<Review> reviews = reviewRepository.findByMovie(movie);
+        List<Review> reviews = repository.findByMovie(movie);
 
-        // List<Review> ==> List<ReviewDto>
+        // List<Review> => List<ReviewDto>
         Function<Review, ReviewDto> fn = review -> entityToDto(review);
         return reviews.stream().map(fn).collect(Collectors.toList());
     }
 
     @Override
     public Long addReview(ReviewDto reviewDto) {
-
         Review review = dtoToEntity(reviewDto);
-        return reviewRepository.save(review).getReviewNo();
+        return repository.save(review).getReviewNo();
     }
 
     @Override
     public void removeReview(Long reviewNo) {
-        reviewRepository.deleteById(reviewNo);
+        repository.deleteById(reviewNo);
     }
 
     @Override
     public ReviewDto getReview(Long reviewNo) {
-
-        return entityToDto(reviewRepository.findById(reviewNo).get());
+        return entityToDto(repository.findById(reviewNo).get());
     }
 
     @Override
     public Long updateReview(ReviewDto reviewDto) {
         // save() =>
         // 1) select 2) insert or update 결정
-        // return reviewRepository.save(dtoToEntity(reviewDto)).getReviewNo();
+        // return repository.save(dtoToEntity(reviewDto)).getReviewNo();
 
-        Optional<Review> result = reviewRepository.findById(reviewDto.getReviewNo());
+        Optional<Review> result = repository.findById(reviewDto.getReviewNo());
 
         if (result.isPresent()) {
-
             Review review = result.get();
             review.setText(reviewDto.getText());
             review.setGrade(reviewDto.getGrade());
-
-            reviewRepository.save(dtoToEntity(reviewDto));
+            repository.save(dtoToEntity(reviewDto));
         }
         return reviewDto.getReviewNo();
     }

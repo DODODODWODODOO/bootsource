@@ -2,6 +2,7 @@ package com.example.movie.entity;
 
 import com.example.movie.constant.MemberRole;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,11 +36,12 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_member_seq_gen")
     private Long mid;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
 
-    private String nickName;
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;

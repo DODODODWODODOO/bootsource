@@ -11,7 +11,10 @@
               class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
             >
               <th class="px-4 py-3">#</th>
-              <th class="px-4 py-3">Poster</th>
+              <th class="px-4 py-3">
+                <p></p>
+                oster
+              </th>
               <th class="px-4 py-3">Title</th>
               <th class="px-4 py-3">Review Count</th>
               <th class="px-4 py-3">Rating</th>
@@ -20,24 +23,28 @@
           </thead>
           <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
             <tr class="text-gray-700 dark:text-gray-400" th:each="movie : ${result.dtoList}">
-              <!-- 영화 번호 -->
               <td class="px-4 py-3" th:text="${movie.mno}"></td>
-              <!-- 포스터 -->
-              <td>
-                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                  <!-- 메소드 호출하려면 || 들어가야함 -->
-                  <img
-                    class="object-cover w-full h-full rounded-full"
-                    th:src="|/upload/display?fileName=${movie.movieImageDtos[0].getThumbImageURL()}|"
-                    alt=""
-                    loading="lazy"
-                    th:if="${movie.movieImageDtos.size() > 0 && movie.movieImageDtos[0].path != null}"
-                  />
-                  <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+              <td class="px-4 py-3">
+                <div class="flex items-center text-sm">
+                  <!-- 포스터 -->
+                  <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                    <img
+                      class="object-cover w-full h-full rounded-full"
+                      th:src="|/upload/display?fileName=${movie.movieImageDtos[0].getThumbImageURL()}|"
+                      alt=""
+                      loading="lazy"
+                      th:if="${movie.movieImageDtos.size() > 0 && movie.movieImageDtos[0].path != null}"
+                    />
+                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                  </div>
+                  <!-- 영화 제목 -->
+                  <div>
+                    <p class="font-semibold"></p>
+                  </div>
                 </div>
               </td>
               <!-- 영화 제목 -->
-              <td class="font-semibold">
+              <td class="px-4 py-3 text-sm">
                 <a
                   th:href="@{read(mno=${movie.mno},page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword})}"
                   th:text="${movie.title}"
@@ -45,8 +52,8 @@
               </td>
               <!-- 리뷰 수 -->
               <td class="px-4 py-3 text-sm" th:text="${movie.reviewCnt}"></td>
-              <!-- 평균 평점 -->
               <td class="px-4 py-3 text-xs">
+                <!-- 평균 평점 -->
                 <span
                   class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                   th:text="${movie.avg}"
@@ -64,7 +71,7 @@
       <div
         class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
       >
-        <span class="flex items-center col-span-3"> Showing 21-30 of 100 </span>
+        <span class="flex items-center col-span-3"></span>
         <span class="col-span-2"></span>
         <!-- Pagination -->
         <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">

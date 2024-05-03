@@ -14,7 +14,6 @@
         => 다시 수집된 이미지 정보 삽입
 
 시큐리티 적용
-
     -영화등록(수정, 삭제)은 admin 가능
     -영화보기 모두 가능 (로그인 없이)
     -리뷰 등록, 수정, 삭제 : 로그인 후
@@ -23,5 +22,21 @@
     - 로그인 POST 작성하지 않음 => Security 알아서 해줌
         1) DB 확인 작업을 할 수 있도록 서비스는 만들기 => UserDetailsService 구현
 
+    - 로그인 성공 시
+        Authentication 객체 생성 (SecurityContext 에 보관)
+
     - 로그아웃 => Security 알아서 해줌
+
+    - get 제외 모든 방식은 csrf 토큰이 필요함
+        => thymeleaf 에서는 form:action 을 삽입하면 자동으로 만들어줌
+        => 403 발생 시 csrf 토큰이 포함되었는지 1차 확인
+
+회원탈퇴
+    - 영화등록 => X (회원정보 상관없이)
+    - 리뷰등록 => O
+    - 회원등록
+
+    ==> 회원 삭제 전에 리뷰 먼저 삭제
+    ==> 리뷰 삭제 deleteById or deleteBy
+
 

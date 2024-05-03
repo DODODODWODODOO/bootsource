@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.movie.constant.MemberRole;
@@ -60,13 +61,13 @@ public class MovieRepositoryTest {
 
     @Test
     public void memberInsertTest() {
-        // 맴버 샘플 데이터 추가
+        // // 맴버 샘플 데이터 추가
         // IntStream.rangeClosed(1, 100).forEach(i -> {
         // Member member = Member.builder()
         // .email("member" + i + "@naver.com")
         // .password(passwordEncoder.encode("1111"))
         // .role(MemberRole.MEMBER)
-        // .nickName("reviewer" + i)
+        // .nickname("reviewer" + i)
         // .build();
         // memberRepository.save(member);
 
@@ -76,7 +77,7 @@ public class MovieRepositoryTest {
                 .email("admin1@naver.com")
                 .password(passwordEncoder.encode("1111"))
                 .role(MemberRole.ADMIN)
-                .nickName("admin1")
+                .nickname("admin1")
                 .build();
         memberRepository.save(member);
 
@@ -169,7 +170,22 @@ public class MovieRepositoryTest {
         reviews.forEach(review -> {
             System.out.println(review);
             System.out.println(review.getMember().getEmail());
-            System.out.println(review.getMember().getNickName());
+            System.out.println(review.getMember().getNickname());
         });
     }
+
+    @Commit
+    @Transactional
+    @Test
+    public void deleteByMemberTest() {
+
+        // 회원탈퇴
+        // 리뷰삭제
+        Member member = Member.builder().mid(2L).build();
+        reviewRepository.deleteByMember(member);
+
+        // 회원삭제
+        memberRepository.delete(member);
+    }
+
 }

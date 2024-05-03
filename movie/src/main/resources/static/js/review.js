@@ -1,4 +1,11 @@
 // /reviews/3/all 요청 처리
+// 날짜 포맷 변경 함수
+const formatDate = (data) => {
+  const date = new Date(data);
+
+  return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+};
+
 const reviewsLoaded = () => {
   fetch(`/reviews/${mno}/all`)
     .then((response) => response.json())
@@ -11,43 +18,42 @@ const reviewsLoaded = () => {
 
       let result = "";
       data.forEach((review) => {
-        result += `<div class="d-flex justify-content-between my-2 border-bottom py-2 review-row" data-rno="${review.reviewNo}">`;
-        result += `<div class="flex-grow-1 align-self-center">`;
-        result += `<div><span class="font-semibold">${review.text}</span></div>`;
-        result += `<div class="small text-muted">`;
-        result += `<span class="d-inline-block mr-3">${review.nickName}</span>`;
-        result += `평점 : <span class="grade">${review.grade}</span></div>`;
-        result += `<div class="text-muted"><span class="small">${formatDate(review.createdDate)}</span></div></div>`;
-        result += `<div class="d-flex flex-column align-self-center">`;
-        result += `<div class="mb-2"><button class="btn btn-outline-danger btn-sm">삭제</button></div>`;
-        result += `<div><button class="btn btn-outline-success btn-sm">수정</button></div>`;
-        result += `</div></div>`;
+        result += `<div class="d-flex justify-content-between my-2 border-bottom py-2 review-row" data-rno="${review.reviewNo}"> 
+          <div class="flex-grow-1 align-self-center">
+            <div><span class="font-semibold">${review.text}</span></div>
+            <div class="small text-muted">
+              <span class="d-inline-block mr-3">${review.nickname}</span>
+              평점 : <span class="grade">${review.grade}</span>
+            </div>
+            <div class="text-muted"><span class="small">${formatDate(review.createdDate)}</span></div>
+          </div>
+          <div class="d-flex flex-column align-self-center">
+            <div class="mb-2">
+              <button class="btn btn-outline-danger btn-sm">삭제</button>
+            </div>
+            <div>
+              <button class="btn btn-outline-success btn-sm">수정</button>
+            </div>
+          </div>
+        </div>`;
       });
-
       reviewList.innerHTML = result;
     });
 };
+
 reviewsLoaded();
-
-// 날짜 포맷 변경 함수
-const formatDate = (data) => {
-  const date = new Date(data);
-
-  return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
-};
 
 // 리뷰 등록 or 수정
 // 리뷰 폼 submit 중지
-// text, grade, mid, mno
 const reviewForm = document.querySelector(".review-form");
 reviewForm.addEventListener("submit", (e) => {
   e.preventDefault();
-
-  const text = document.querySelector("#text");
-  const mid = document.querySelector("#mid");
-  const nickname = document.querySelector("#nickname");
+  // text, grade, mid, mno
+  const text = reviewForm.querySelector("#text");
+  const mid = reviewForm.querySelector("#mid");
+  const nickname = reviewForm.querySelector("#nickname");
   // 수정이라면 reviewNo 가 존재함
-  const reviewNo = document.querySelector("#reviewNo");
+  const reviewNo = reviewForm.querySelector("#reviewNo");
 
   const body = {
     mno: mno,
@@ -60,11 +66,11 @@ reviewForm.addEventListener("submit", (e) => {
   if (!reviewNo.value) {
     // 새 review 등록
     fetch(`/reviews/${mno}`, {
-      method: "post",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(body),
+      method: "post",
     })
       .then((response) => response.text())
       .then((data) => {
@@ -75,17 +81,17 @@ reviewForm.addEventListener("submit", (e) => {
         // grade = 0;
         reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
 
-        if (data) alert(data + " 번 리뷰가 등록되었습니다");
+        if (data) alert(data + " 번 리뷰가 등록되었습니다.");
         reviewsLoaded(); // 댓글 리스트 다시 가져오기
       });
   } else {
     // 수정
     fetch(`/reviews/${mno}/${reviewNo.value}`, {
-      method: "put",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(body),
+      method: "put",
     })
       .then((response) => response.text())
       .then((data) => {
@@ -96,7 +102,7 @@ reviewForm.addEventListener("submit", (e) => {
         reviewNo.value = "";
         reviewForm.querySelector(".starrr a:nth-child(" + grade + ")").click();
 
-        if (data) alert(data + " 번 리뷰가 수정되었습니다");
+        if (data) alert(data + " 번 리뷰가 수정되었습니다.");
         reviewsLoaded(); // 댓글 리스트 다시 가져오기
       });
   }
@@ -105,7 +111,7 @@ reviewForm.addEventListener("submit", (e) => {
 // 삭제 클릭 시 reviewNo 가져오기
 // fetch() 작성
 reviewList.addEventListener("click", (e) => {
-  // 부모 요소가 이벤트를 감지하는 형태로 작성 => 실제 이벤트 대상 요소가 무엇인지 찾아야 함
+  // 부모요소가 이벤트를 감지하는 형태로 작성 => 실제 이벤트 대상 요소가 무엇인지 찾아야 함
   console.log("이벤트 대상 ", e.target);
 
   const target = e.target;
@@ -113,7 +119,7 @@ reviewList.addEventListener("click", (e) => {
   const reviewNo = target.closest(".review-row").dataset.rno;
 
   if (target.classList.contains("btn-outline-danger")) {
-    if (!confirm("삭제 하시겠습니까?")) return;
+    if (!confirm("리뷰를 정말로 삭제하시겠습니까?")) return;
 
     fetch(`/reviews/${mno}/${reviewNo}`, {
       method: "delete",
@@ -124,7 +130,7 @@ reviewList.addEventListener("click", (e) => {
         reviewsLoaded();
       });
   } else if (target.classList.contains("btn-outline-success")) {
-    // review폼에 보여주기
+    // 도착한 데이터 review폼에 보여주기
     fetch(`/reviews/${mno}/${reviewNo}`)
       .then((response) => response.json())
       .then((data) => {
@@ -132,7 +138,6 @@ reviewList.addEventListener("click", (e) => {
         reviewForm.querySelector("#mid").value = data.mid;
         reviewForm.querySelector("#nickname").value = data.nickname;
         reviewForm.querySelector("#text").value = data.text;
-
         // 이벤트 click 을 직접 호출
         reviewForm.querySelector(".starrr a:nth-child(" + data.grade + ")").click();
         reviewForm.querySelector("button").innerHTML = "리뷰 수정";

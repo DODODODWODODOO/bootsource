@@ -27,7 +27,7 @@ public class ReviewDto {
     // 맴버 관계
     private Long mid;
     private String email;
-    private String nickName;
+    private String nickname;
 
     // 무비 관계
     private Long mno;

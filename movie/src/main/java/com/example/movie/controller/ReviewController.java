@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+@Log4j2
 @RestController
 @RequestMapping("/reviews")
 @RequiredArgsConstructor
-@Log4j2
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -36,7 +36,7 @@ public class ReviewController {
 
     // /3 + POST => 리뷰번호 리턴
     @PostMapping("/{mno}")
-    public ResponseEntity<Long> postaddReview(@RequestBody ReviewDto reviewDto) {
+    public ResponseEntity<Long> postMethodName(@RequestBody ReviewDto reviewDto) {
         log.info("리뷰 등록 {}", reviewDto);
 
         Long reviewNo = reviewService.addReview(reviewDto);
@@ -50,16 +50,15 @@ public class ReviewController {
         return new ResponseEntity<>(reviewNo, HttpStatus.OK);
     }
 
-    // /299/5 + get
+    // /299/5 + GET
     @GetMapping("/{mno}/{reviewNo}")
     public ResponseEntity<ReviewDto> getReview(@PathVariable("reviewNo") Long reviewNo) {
         log.info("review 가져오기 {}", reviewNo);
         return new ResponseEntity<>(reviewService.getReview(reviewNo), HttpStatus.OK);
-
     }
 
     @PutMapping("/{mno}/{reviewNo}")
-    public ResponseEntity<Long> updateReview(@PathVariable("reviewNo") Long reviewNo,
+    public ResponseEntity<Long> putMethodName(@PathVariable("reviewNo") Long reviewNo,
             @RequestBody ReviewDto reviewDto) {
         log.info("review 수정 {}", reviewDto);
 
