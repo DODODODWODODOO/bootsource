@@ -21,10 +21,10 @@ import lombok.ToString;
 @Entity
 @Setter
 @Getter
+@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "movie_member")
 public class Member extends BaseEntity {
     // table 명 movie_member
