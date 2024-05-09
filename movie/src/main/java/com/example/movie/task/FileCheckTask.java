@@ -19,12 +19,12 @@ import com.example.movie.repository.MovieImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-@Component
 @Log4j2
+@Component
 @RequiredArgsConstructor
 public class FileCheckTask {
 
-    private MovieImageRepository movieImageRepository;
+    private final MovieImageRepository movieImageRepository;
 
     @Value("${com.example.upload.path}")
     private String uploadPath;
@@ -34,7 +34,7 @@ public class FileCheckTask {
         // 어제날짜 추출
         LocalDate yesterday = LocalDate.now().minusDays(1);
         // 문자열 형태로 변환
-        String strDay = yesterday.format(DateTimeFormatter.ofPattern("yyyy-mm-dd"));
+        String strDay = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         // 2024-05-07 ==> 2024\05\07
         // windows : \, linux : /
@@ -46,7 +46,7 @@ public class FileCheckTask {
     public void checkFiles() {
         log.info("file check task 시작....");
 
-        // 데이터베이스 상 어제 날짜의 이미지 파일 가져오기
+        // 데이터베이스 상 어제날짜의 이미지 파일 리스트 가져오기
         List<MovieImage> oldImages = movieImageRepository.getOldMovieImages();
 
         // entity => dto
@@ -59,11 +59,10 @@ public class FileCheckTask {
                     .build();
         }).collect(Collectors.toList());
 
-        // dto 내용 수집 ==> 이미지 파일 한개 당 c:\\upload\\2024\\05\\07\\sdflskjf(uuid)_파일명
+        // dto 내용 수집 ==> 이미지 파일 한개 당 c:\\upload\\2024\\05\\07\\didkeidkd_파일명
         List<Path> fileListPaths = movieImageDtos.stream()
                 .map(dto -> Paths.get(uploadPath, dto.getImageURL(), dto.getUuid() + "_" + dto.getImgName()))
                 .collect(Collectors.toList());
-
         // 썸네일 이미지 파일명
         movieImageDtos.stream()
                 .map(dto -> Paths.get(uploadPath, dto.getImageURL(), "s_" + dto.getUuid() + "_" + dto.getImgName()))
